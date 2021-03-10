@@ -1,10 +1,11 @@
 import React from 'react'
+import "./input.scss"
 
-const Input = () => {
+const Input = ({label, ...rest}) => {
     return (
-        <div>
-            <p>label input</p>
-            <input type="text" placeholder="form input" />
+        <div className="input-wrappper" >
+            <p className="label" >{label}</p>
+            <input className="input" type="text" {...rest} />
         </div>
     )
 }
