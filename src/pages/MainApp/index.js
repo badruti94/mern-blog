@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from '../Home'
 import CreateBlog from '../CreateBlog'
 import DetailBlog from '../DetailBlog'
-import { Footer, Header } from '../../components'
+import { Footer, Gap, Header } from '../../components'
 import './mainApp.scss'
 
 

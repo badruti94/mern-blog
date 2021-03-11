@@ -4,6 +4,7 @@
     align-items: center;
     background-color: #67b35c;
     padding: 20px 40px;
+    margin-top: 100px;
 
     .logo {
         width: 70px;
@@ -27,16 +28,13 @@
             }
         }
     }
-
-
-
 }
 
-.copyright{
+.copyright {
     background-color: #569e4b;
     padding: 10px 0px;
 
-    p{
+    p {
         font-size: 14px;
         color: white;
         text-align: center;
