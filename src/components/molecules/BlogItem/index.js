@@ -4,15 +4,16 @@ import './blogItem.scss'
 import {Button, Gap} from '../../atoms'
 import { useHistory } from "react-router-dom";
 
-const BlogItem = () => {
+const BlogItem = (props) => {
     const history = useHistory()
+    const {image, title, name, date, body} = props;
     return (
         <div className="blog-item" >
-            <img className="image-thumb" src={RegisterBg} alt="post"/>
+            <img className="image-thumb" src={image} alt="post"/>
             <div className="content-detail" >
-                <p className="title" >Title</p>
-                <p className="author" >Author - Date post</p>
-                <p className="body" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vel natus eum nobis placeat eveniet enim totam dolorem maxime? Aspernatur, non neque quisquam cupiditate distinctio dolorum aperiam veritatis doloremque aliquam!</p>
+                <p className="title" >{title}</p>
+                <p className="author" >{name} - {date}</p>
+                <p className="body" >{body}</p>
                 <Gap height={20} />
                 <Button title="View Detail" onClick={()=>{history.push('/detail-blog')}} />
             </div>
