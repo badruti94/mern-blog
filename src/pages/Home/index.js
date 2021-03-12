@@ -3,15 +3,18 @@ import { BlogItem, Button, Gap } from "../../components";
 import './home.scss'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import {setDataBlog} from '../../config/redux/action'
+import { setDataBlog } from '../../config/redux/action'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import cs
+import axios from 'axios';
 
 const Home = () => {
     const [counter, setCounter] = useState(1)
 
-    const {dataBlog, page} = useSelector(state => state.homeReducer)
+    const { dataBlog, page } = useSelector(state => state.homeReducer)
     const dispatch = useDispatch()
 
-    useEffect(() => { 
+    useEffect(() => {
         dispatch(setDataBlog(counter))
     }, [counter, dispatch])
 
@@ -23,8 +26,34 @@ const Home = () => {
     }
 
     const next = () => {
-        setCounter(counter === page.totalPage? page.totalPage : counter + 1)
+        setCounter(counter === page.totalPage ? page.totalPage : counter + 1)
         console.log(counter);
+    }
+
+    const confirmDelete = (id) => {
+        confirmAlert({
+            title: 'Konfirmasi menghapus',
+            message: 'Apa anda yakin akan menghapus post ini?',
+            buttons: [
+                {
+                    label: 'Ya',
+                    onClick: () => {
+                        axios.delete(`http://localhost:4000/v1/blog/post/${id}`)
+                        .then(res => {
+                            console.log('succes delete : ', res.data);
+                            dispatch(setDataBlog(counter))
+                        })
+                        .catch(err => {
+                            console.log('err: ', err);
+                        })
+                    }
+                },
+                {
+                    label: 'Tidak',
+                    onClick: () => console.log('Tidak')
+                }
+            ]
+        });
     }
 
     return (
@@ -36,13 +65,14 @@ const Home = () => {
             <div className="content-wrapper" >
                 {dataBlog.map(blog => {
                     return <BlogItem
-                    key={blog._id}
-                    image={`http://localhost:4000/${blog.image}`}
-                    title={blog.title}
-                    body={blog.body}
-                    name={blog.author.name}
-                    date={blog.createdAt}
-                    _id={blog._id}
+                        key={blog._id}
+                        image={`http://localhost:4000/${blog.image}`}
+                        title={blog.title}
+                        body={blog.body}
+                        name={blog.author.name}
+                        date={blog.createdAt}
+                        _id={blog._id}
+                        onDelete={confirmDelete}
                     />
                 })}
 
