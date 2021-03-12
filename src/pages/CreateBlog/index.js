@@ -1,5 +1,4 @@
-import Axios from 'axios';
-import React, { useState } from 'react'
+import React from 'react'
 import { Input, Button, Upload, TextArea, Gap, Link } from '../../components'
 import './createBlog.scss'
 import { useHistory } from 'react-router-dom'
@@ -8,7 +7,7 @@ import { postToAPI, setForm, setImgPreview } from '../../config/redux/action';
 
 const CreateBlog = () => {
     const { form, imgPreview } = useSelector(state => state.createBlogReducer)
-    const { title, body, image } = form;
+    const { title, body } = form;
     const dispatch = useDispatch();
 
     /* const [title, setTitle] = useState('')

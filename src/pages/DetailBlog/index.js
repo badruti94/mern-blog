@@ -1,25 +1,36 @@
-import React from 'react'
-import { RegisterBg } from '../../assets'
+import React, { useEffect, useState } from 'react'
 import { Gap, Link } from '../../components/atoms'
 import './detailBlog.scss'
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
+import Axios from 'axios';
 
-const DetailBlog = () => {
+const DetailBlog = (props) => {
+    const [data, setData] = useState({})
+    useEffect(()=>{
+        const id = props.match.params.id;
+        Axios.get(`http://localhost:4000/v1/blog/post/${id}`)
+        .then(res => {
+            setData(res.data.data)
+        })
+        .catch(err => {
+            console.log('err: ', err);
+        })
+    }, [props])
+
     const history = useHistory()
+
+    if(data.author)
     return (
         <div className="detail-blog-wrapper" >
-            <img className="img-cover" src={RegisterBg} alt="thumb"/>
-            <p className="blog-title" >Title</p>
-            <p className="blog-author" >Author - Date Post</p>
-            <p className="blog-body" >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis veniam mollitia ducimus sequi sed reiciendis dolorem ab dolores aspernatur sunt dolorum minus doloremque autem pariatur recusandae, maiores porro incidunt in!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt omnis odio at et placeat officiis inventore delectus molestiae? Totam iusto recusandae praesentium omnis quod quibusdam sunt dolorem labore, dolore dicta!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam repudiandae quos similique numquam consequatur laborum minus natus amet obcaecati eum veniam quam, nisi deleniti, placeat cum expedita nesciunt odit dicta?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, recusandae magni harum quisquam provident impedit deserunt consequatur deleniti, sunt laboriosam maiores asperiores eveniet nemo dolorem enim! Voluptatum reprehenderit consectetur recusandae!
-            </p>
+            <img className="img-cover" src={`http://localhost:4000/${data.image}`} alt="thumb"/>
+            <p className="blog-title" >{data.title}</p>
+            <p className="blog-author" >{data.author.name} - {data.createdAt}</p>
+            <p className="blog-body" >{data.body}</p>
             <Gap height={20} />
             <Link title="Kembali ke Home" onClick={()=>{history.push('/')}} />
         </div>
     )
-}
+    return <p>Loading....</p>
+} 
 
-export default DetailBlog
+export default withRouter(DetailBlog)
